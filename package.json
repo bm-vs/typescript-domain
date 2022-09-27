@@ -6,6 +6,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "lint": "eslint src test",
     "postversion": "git push && git push --tags",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
@@ -13,6 +14,14 @@
     "test": "jest --config jestconfig.json",
     "test:watch": "jest --config jestconfig.json --silent=false --watchAll",
     "version": "npm run format && git add -A src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:BSantos22/typescript-domain.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "keywords": [
     "typescript",
