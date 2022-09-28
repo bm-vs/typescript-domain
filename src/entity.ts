@@ -4,7 +4,7 @@ import type {Constructor, DebugFunction, Indexable, PlainData} from './types';
 
 export class Entity<T> {
 	public constructor(
-		_payload?: PlainData<T> | null,
+		_data?: PlainData<T> | null,
 		private readonly _debugFunction?: DebugFunction,
 		private readonly _debugSkipUndef?: boolean
 	) {}
@@ -13,7 +13,7 @@ export class Entity<T> {
 		return true;
 	}
 
-	private _init(constructor: Constructor<T>, payload?: PlainData<T>): void {
+	private _init(constructor: Constructor<T>, data?: PlainData<T>): void {
 		const entityMetadata = defaultMetadataStorage.getMetadata(constructor);
 		if (!entityMetadata) {
 			return;
@@ -22,8 +22,8 @@ export class Entity<T> {
 		for (const key of Object.keys(this)) {
 			const fieldMetadata = entityMetadata.find(({field}) => field === key);
 			if (Object.prototype.hasOwnProperty.call(this, key) && fieldMetadata) {
-				const originalValue = payload
-					? (payload as Indexable)[fieldMetadata.field]
+				const originalValue = data
+					? (data as Indexable)[fieldMetadata.field]
 					: null;
 				const {validatedValue, debugInfo} = validateValue(
 					originalValue,
@@ -48,7 +48,7 @@ export class Entity<T> {
 				const instance = this as unknown as Indexable;
 				const defaultValue = instance[key];
 				instance[key] =
-					(!payload || !Object.prototype.hasOwnProperty.call(payload, key)) &&
+					(!data || !Object.prototype.hasOwnProperty.call(data, key)) &&
 					defaultValue
 						? defaultValue
 						: validatedValue;

@@ -41,11 +41,11 @@ describe('Object types', () => {
 		@AutoNumber id: number | null = null;
 		nested: NestedObject | null = null;
 
-		constructor(payload?: PlainData<NestedObject> | null) {
-			super(payload);
+		constructor(data?: PlainData<NestedObject> | null) {
+			super(data);
 			this.nested = EntityValidation.object(
 				NestedObject,
-				payload?.nested
+				data?.nested
 			).validatedValue;
 		}
 	}
