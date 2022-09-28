@@ -10,9 +10,9 @@ import {
 describe('Default values', () => {
 	@Model
 	class Address extends Entity<Address> {
-		@AutoString street: string | null = null;
-		@AutoString street2: string | null = '123';
-		@AutoNumber streetNumber: number | null = null;
+		@AutoString() street: string | null = null;
+		@AutoString() street2: string | null = '123';
+		@AutoNumber() streetNumber: number | null = null;
 		streetNumber2: number | null;
 
 		constructor(data?: PlainData<Address>) {
@@ -26,9 +26,9 @@ describe('Default values', () => {
 
 	@Model
 	class Dimensions extends Entity<Dimensions> {
-		@AutoNumber height: number | null = null;
-		@AutoNumber length: number | null = null;
-		@AutoNumber width: number | null = null;
+		@AutoNumber() height: number | null = null;
+		@AutoNumber() length: number | null = null;
+		@AutoNumber() width: number | null = null;
 		volume: number | null;
 
 		constructor(data?: PlainData<Dimensions>) {
@@ -41,7 +41,7 @@ describe('Default values', () => {
 
 	@Model
 	class Prices extends Entity<Prices> {
-		@AutoNumber salesPrice = 100;
+		@AutoNumber() salesPrice = 100;
 	}
 
 	it('Should create an object with default values no parameters are passed', () => {

@@ -15,10 +15,10 @@ describe('Basic arrays', () => {
 
 	@Model
 	class Address extends Entity<Address> {
-		@AutoStringArray streets: string[] = [];
-		@AutoNumberArray streetNumbers: number[] = [];
-		@AutoBooleanArray isPrimaryAddress: boolean[] = [];
-		@AutoDateArray lastModified: Date[] = [];
+		@AutoStringArray() streets: string[] = [];
+		@AutoNumberArray() streetNumbers: number[] = [];
+		@AutoBooleanArray() isPrimaryAddress: boolean[] = [];
+		@AutoDateArray() lastModified: Date[] = [];
 		@AutoEnumArray(countries) countries: Country[] = [];
 	}
 

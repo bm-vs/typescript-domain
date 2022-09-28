@@ -198,10 +198,10 @@ describe('Standalone validation', () => {
 	describe('Object', () => {
 		@Model
 		class Address extends Entity<Address> {
-			@AutoString street: string | null = null;
-			@AutoNumber streetNumber: number | null = null;
-			@AutoBoolean isPrimaryAddress: boolean | null = null;
-			@AutoDate lastModified: Date | null = null;
+			@AutoString() street: string | null = null;
+			@AutoNumber() streetNumber: number | null = null;
+			@AutoBoolean() isPrimaryAddress: boolean | null = null;
+			@AutoDate() lastModified: Date | null = null;
 
 			isValid(): boolean {
 				return !!this.street;

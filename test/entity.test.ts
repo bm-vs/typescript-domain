@@ -14,10 +14,10 @@ describe('Entity', () => {
 
 	@Model
 	class Address {
-		@AutoStringArray streets: string[] = [];
-		@AutoNumberArray streetNumbers: number[] = [];
-		@AutoBooleanArray isPrimaryAddress: boolean[] = [];
-		@AutoDateArray lastModified: Date[] = [];
+		@AutoStringArray() streets: string[] = [];
+		@AutoNumberArray() streetNumbers: number[] = [];
+		@AutoBooleanArray() isPrimaryAddress: boolean[] = [];
+		@AutoDateArray() lastModified: Date[] = [];
 		@AutoEnumArray(countries) countries: Country[] = [];
 	}
 

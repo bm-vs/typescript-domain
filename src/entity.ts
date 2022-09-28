@@ -23,7 +23,12 @@ export class Entity<T> {
 			const fieldMetadata = entityMetadata.find(({field}) => field === key);
 			if (Object.prototype.hasOwnProperty.call(this, key) && fieldMetadata) {
 				const originalValue = data
-					? (data as Indexable)[fieldMetadata.field]
+					? (data as Indexable)[
+							fieldMetadata.alias &&
+							Object.prototype.hasOwnProperty.call(data, fieldMetadata.alias)
+								? fieldMetadata.alias
+								: fieldMetadata.field
+					  ]
 					: null;
 				const {validatedValue, debugInfo} = validateValue(
 					originalValue,

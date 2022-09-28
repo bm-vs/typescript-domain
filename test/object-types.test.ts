@@ -17,10 +17,10 @@ describe('Object types', () => {
 
 	@Model
 	class Address extends Entity<Address> {
-		@AutoString street: string | null = null;
-		@AutoNumber streetNumber: number | null = null;
-		@AutoBoolean isPrimaryAddress: boolean | null = null;
-		@AutoDate lastModified: Date | null = null;
+		@AutoString() street: string | null = null;
+		@AutoNumber() streetNumber: number | null = null;
+		@AutoBoolean() isPrimaryAddress: boolean | null = null;
+		@AutoDate() lastModified: Date | null = null;
 		@AutoEnum(countries) country: Country | null = null;
 	}
 
@@ -38,7 +38,7 @@ describe('Object types', () => {
 
 	@Model
 	class NestedObject extends Entity<NestedObject> {
-		@AutoNumber id: number | null = null;
+		@AutoNumber() id: number | null = null;
 		nested: NestedObject | null = null;
 
 		constructor(data?: PlainData<NestedObject> | null) {

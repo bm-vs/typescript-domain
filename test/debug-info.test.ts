@@ -16,7 +16,7 @@ describe('Debug info', () => {
 	describe('String', () => {
 		@Model
 		class Address extends Entity<Address> {
-			@AutoString streetName: string | null = null;
+			@AutoString() streetName: string | null = null;
 		}
 
 		it('Should output information about fields that are undefined', () => {
@@ -78,7 +78,7 @@ describe('Debug info', () => {
 	describe('Number', () => {
 		@Model
 		class Address extends Entity<Address> {
-			@AutoNumber streetNumber: number | null = null;
+			@AutoNumber() streetNumber: number | null = null;
 		}
 
 		it('Should output information about fields that are undefined', () => {
@@ -140,7 +140,7 @@ describe('Debug info', () => {
 	describe('Boolean', () => {
 		@Model
 		class Address extends Entity<Address> {
-			@AutoBoolean isMainAddress: boolean | null = null;
+			@AutoBoolean() isMainAddress: boolean | null = null;
 		}
 
 		it('Should output information about fields that are undefined', () => {
@@ -202,7 +202,7 @@ describe('Debug info', () => {
 	describe('Date', () => {
 		@Model
 		class Address extends Entity<Address> {
-			@AutoDate moveInDate: Date | null = null;
+			@AutoDate() moveInDate: Date | null = null;
 		}
 
 		it('Should output information about fields that are undefined', () => {
@@ -345,7 +345,7 @@ describe('Debug info', () => {
 	describe('Object', () => {
 		@Model
 		class Address extends Entity<Address> {
-			@AutoString streetName: string | null = null;
+			@AutoString() streetName: string | null = null;
 
 			isValid(): boolean {
 				return this.streetName !== null;
@@ -420,7 +420,7 @@ describe('Debug info', () => {
 	describe('Array', () => {
 		@Model
 		class Address extends Entity<Address> {
-			@AutoStringArray streetName: string[] = [];
+			@AutoStringArray() streetName: string[] = [];
 		}
 
 		it('Should output information about fields that are undefined', () => {

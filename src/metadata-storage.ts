@@ -7,6 +7,7 @@ export interface EntityMetadata {
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	type: BasicTypes | Object;
 	array?: boolean;
+	alias?: string;
 }
 
 class MetadataStorage {

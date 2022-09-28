@@ -169,8 +169,8 @@ Much work.
 ```ts
 @Model
 class Address extends Entity<Address> {
-	@AutoString street: string | null = null;
-	@AutoNumber streetNumber: number | null = null;
+	@AutoString() street: string | null = null;
+	@AutoNumber() streetNumber: number | null = null;
 }
 
 const address = new Address({
@@ -190,7 +190,7 @@ All that needs to be done is to:
 - have it extend `Entity` (the generic type in the entity is the same as the class we're decorating)
 - decorate the fields that should be initialized and validated automatically. There are decoration for the major types of Javascript:
 
-	`@AutoObject()` - requires type argument. `@AutoObject(Address) address: Address | null`
+	`@AutoObject` - requires type argument. `@AutoObject(Address) address: Address | null`
 
 	`@AutoBoolean`
 
@@ -200,9 +200,9 @@ All that needs to be done is to:
 
 	`@AutoDate`
 
-	`@AutoEnum()` - requires options argument (the values the enum allows)
+	`@AutoEnum` - requires options argument (the values the enum allows)
 
-	`@AutoObjectArray()` - requires type argument
+	`@AutoObjectArray` - requires type argument
 
 	`@AutoBooleanArray`
 
@@ -214,6 +214,9 @@ All that needs to be done is to:
 
 	`@AutoEnumArray` - requires options argument (the values the enum allows)
 
+
+**All decorators allow for an optional argument to be passed - alias (a string).**
+**This is useful when mapping JSON fields into the object. If the alias field isn't found in the object literal, it'll then try the name of the field itself (so creating objects from JSON and object literals in Typescript will work at the same time).**
 
 <br>
 <br>
@@ -274,9 +277,9 @@ This feature can be useful to collect all of the mistypings that happen at runti
 ```ts
 @Model
 class Address extends Entity<Address> {
-	@AutoString street: string | null = null;
-	@AutoNumber streetNumber: number | null = null;
-	@AutoBoolean isPrimaryAddress: boolean | null = true;
+	@AutoString() street: string | null = null;
+	@AutoNumber() streetNumber: number | null = null;
+	@AutoBoolean() isPrimaryAddress: boolean | null = true;
 }
 
 // address1 and address2 are instantiated with the default values
@@ -333,7 +336,7 @@ const address2 = new Address({country: 'Denmark'});
 ```ts
 @Model
 class Address extends Entity<Address> {
-	@AutoDate lastModified: Date | null = null;
+	@AutoDate() lastModified: Date | null = null;
 }
 
 // these is instantiated with the passed values
@@ -353,8 +356,8 @@ const address4 = new Address({lastModified: false});
 ```ts
 @Model
 class Address extends Entity<Address> {
-	@AutoString street: string | null = null;
-	@AutoNumber streetNumber: number | null = null;
+	@AutoString() street: string | null = null;
+	@AutoNumber() streetNumber: number | null = null;
 
 	public isValid(): boolean {
 		return this.street !== null;
@@ -401,8 +404,8 @@ const customer3 = new Customer({
 ```ts
 @Model
 class Address extends Entity<Address> {
-	@AutoString street: string | null = null;
-	@AutoNumberArray streetNumbers[]: number[] = [];
+	@AutoString() street: string | null = null;
+	@AutoNumberArray() streetNumbers[]: number[] = [];
 
 	public isValid(): boolean {
 		return this.street !== null;
@@ -446,8 +449,8 @@ const customer2 = new Customer({
 ```ts
 @Model
 class Address extends Entity<Address> {
-	@AutoString street: string | null = null;
-	@AutoNumberArray streetNumbers[]: number[] = [];
+	@AutoString() street: string | null = null;
+	@AutoNumberArray() streetNumbers[]: number[] = [];
 }
 
 // Should output:
@@ -473,7 +476,7 @@ new Address({street: 1}, (output) => {
 @Model
 class Address extends Entity<Address> {
 	street: string | null = null;
-	@AutoNumber streetNumber: number | null = null;
+	@AutoNumber() streetNumber: number | null = null;
 	fullAddress: string = '';
 
 	constructor(data?: PlainData<Address>) {
@@ -498,7 +501,7 @@ class Address extends Entity<Address> {
 ```ts
 @Model
 class Address extends Entity<Address> {
-	@AutoString street: string | null = 'Street 1';
+	@AutoString() street: string | null = 'Street 1';
 }
 
 // if an @Auto field doesn't exist in the passed data, the default value is used
@@ -524,7 +527,7 @@ These fields need to be taken care of in the constructor of your class. Here's a
 ```ts
 @Model
 class NestedObject extends Entity<NestedObject> {
-	@AutoNumber id: number | null = null;
+	@AutoNumber() id: number | null = null;
 	nested: NestedObject | null = null;
 
 	constructor(data?: PlainData<NestedObject> | null) {
