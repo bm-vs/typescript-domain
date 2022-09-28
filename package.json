@@ -1,6 +1,6 @@
 {
   "name": "typescript-domain",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Decorator-based transformation of JSON or plain Javascript objects to classes",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
