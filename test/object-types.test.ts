@@ -6,7 +6,9 @@ import {
 	AutoNumber,
 	AutoString,
 	Entity,
-	Model
+	Model,
+	PlainData,
+	EntityValidation
 } from '../src/index';
 
 describe('Object types', () => {
@@ -32,6 +34,20 @@ describe('Object types', () => {
 	@Model
 	class OrderList extends Entity<OrderList> {
 		@AutoObject(Order) orders: Order | null = null;
+	}
+
+	@Model
+	class NestedObject extends Entity<NestedObject> {
+		@AutoNumber id: number | null = null;
+		nested: NestedObject | null = null;
+
+		constructor(payload?: PlainData<NestedObject> | null) {
+			super(payload);
+			this.nested = EntityValidation.object(
+				NestedObject,
+				payload?.nested
+			).validatedValue;
+		}
 	}
 
 	it('Should create an object with default values no parameters are passed', () => {
@@ -131,5 +147,35 @@ describe('Object types', () => {
 			}
 		});
 		expect(ordersObj).toEqual(ordersPlain);
+	});
+
+	it('Should not create an infinite loop', () => {
+		const nested = new NestedObject({
+			id: 1,
+			nested: {
+				id: 2,
+				nested: {
+					id: 3,
+					nested: {
+						id: 4
+					}
+				}
+			}
+		});
+		expect(nested).toEqual(
+			expect.objectContaining({
+				id: 1,
+				nested: expect.objectContaining({
+					id: 2,
+					nested: expect.objectContaining({
+						id: 3,
+						nested: expect.objectContaining({
+							id: 4,
+							nested: null
+						})
+					})
+				})
+			})
+		);
 	});
 });
