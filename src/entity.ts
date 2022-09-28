@@ -22,10 +22,12 @@ export class Entity<T> {
 		for (const key of Object.keys(this)) {
 			const fieldMetadata = entityMetadata.find(({field}) => field === key);
 			if (Object.prototype.hasOwnProperty.call(this, key) && fieldMetadata) {
+				const hasAlias =
+					fieldMetadata.alias &&
+					Object.prototype.hasOwnProperty.call(data, fieldMetadata.alias);
 				const originalValue = data
 					? (data as Indexable)[
-							fieldMetadata.alias &&
-							Object.prototype.hasOwnProperty.call(data, fieldMetadata.alias)
+							fieldMetadata.alias && hasAlias
 								? fieldMetadata.alias
 								: fieldMetadata.field
 					  ]
@@ -53,7 +55,11 @@ export class Entity<T> {
 				const instance = this as unknown as Indexable;
 				const defaultValue = instance[key];
 				instance[key] =
-					(!data || !Object.prototype.hasOwnProperty.call(data, key)) &&
+					(!data ||
+						!Object.prototype.hasOwnProperty.call(
+							data,
+							fieldMetadata.alias && hasAlias ? fieldMetadata.alias : key
+						)) &&
 					defaultValue
 						? defaultValue
 						: validatedValue;
