@@ -7,11 +7,42 @@ Aims at creating consistency for types both at compile time and runtime.
 <br>
 <br>
 
-## Instalation
+## Contents
+* [Installation](#installation)
+* [Objective](#objective)
+* [Motivation](#motivation)
+  + [API requests](#api-requests)
+  + [Initializing class objects](#initializing-class-objects)
+* [Solution](#solution)
+* [How it works](#how-it-works)
+  + [Flow](#flow)
+  + [Parsing and validation](#parsing-and-validation)
+  + [Alias](#alias)
+  + [Debugging](#debugging)
+* [Use cases](#use-cases)
+  + [Basic types](#basic-types)
+  + [Enums](#enums)
+  + [Dates](#dates)
+  + [Objects](#objects)
+  + [Arrays](#arrays)
+  + [Debug info](#debug-info)
+  + [Manually initialized fields](#manually-initialized-fields)
+  + [Default values](#default-values)
+* [Limitations](#limitations)
+
+
+<br>
+<br>
+
+## Installation
+
+This package doesn't dependent on anything else. Just do:
 
 ```sh
 npm i typescript-domain
 ```
+
+
 
 <br>
 <br>
@@ -157,7 +188,7 @@ const address = new Address({
 
 but this causes problems if `Address` was to have methods.
 
-Ok, I guess you can use [Partial](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype) on the argument of the constructor... but then you have to handle all of the possible undefineds manually, possibly adding default values for everything.
+Ok, I guess you can use [Partial](https://www.typescriptlang.org/docs/handbook/utility-types.html#partialtype) on the argument of the constructor... but then you have to handle all of the possible undefined's manually, possibly adding default values for everything.
 
 Much work.
 
@@ -183,7 +214,7 @@ http.get('users/1/addresses').pipe(EntityConverter.object(Address))
 
 The objective here was to create a solution that works great with `parsing and validating object literals` (like what we get from requests), and makes it `easy and readable to create objects in code`, including having `error checking leveraging Typescript`.
 
-An important aspect was to also make it easy enough to override default behaviour to allow for custom field initialization by the developer.
+An important aspect was to also make it easy enough to override default behavior to allow for custom field initialization by the developer.
 
 All that needs to be done is to:
 - add `@Model` to class
@@ -215,8 +246,9 @@ All that needs to be done is to:
 	`@AutoEnumArray` - requires options argument (the values the enum allows)
 
 
-**All decorators allow for an optional argument to be passed - alias (a string).**
-**This is useful when mapping JSON fields into the object. If the alias field isn't found in the object literal, it'll then try the name of the field itself (so creating objects from JSON and object literals in Typescript will work at the same time).**
+
+
+**All decorators allow for an optional argument to be passed, an alias (check next section).**
 
 <br>
 <br>
@@ -254,6 +286,16 @@ When a field of the data is being validated the following happens:
 
 <br>
 
+### Alias
+
+All decorators allow for an optional argument to be passed, an `alias` (string).
+
+This is useful when mapping JSON fields into the object. If the `alias` field isn't found in the object literal, it'll then try the name of the field itself (so creating objects from JSON and object literals in Typescript will work at the same time).**
+
+If both the `alias` and the `field name` exist in the passed `data`, the `alias` is always prioritized.
+
+<br>
+
 ### Debugging
 
 Besides the `data` used to initialize an `Entity`, optional arguments are available for debugging purposes - `_debugFunction` and `_debugSkipUndef`.
@@ -272,7 +314,7 @@ This feature can be useful to collect all of the mistypings that happen at runti
 
 <br>
 
-### Basic types - booleans, strings, numbers
+### Basic types
 
 ```ts
 @Model
