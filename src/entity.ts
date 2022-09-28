@@ -57,13 +57,13 @@ export class Entity<T> {
 	}
 }
 
-export function Model<T extends Constructor>(classs: T): Constructor {
-	return class extends classs {
+export function Model<T extends Constructor>(constructor: T): Constructor {
+	return class extends constructor {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		public constructor(...args: any[]) {
 			super(...args);
 			try {
-				this['_init'](classs, args[0]);
+				this['_init'](constructor, args[0]);
 			} catch (e) {
 				console.error(e);
 				console.error('Maybe you forgot to extend Entity on this component?');

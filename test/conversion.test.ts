@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import {of} from 'rxjs';
 import {
 	AutoBoolean,
 	AutoDate,
@@ -41,7 +40,7 @@ describe('Conversion', () => {
 		}
 	}
 
-	it('Should return converted Entity if valid', (done) => {
+	it('Should return converted Entity if valid', () => {
 		const data: PlainData<Order> = {
 			address: {
 				street: 'Street 1',
@@ -55,33 +54,30 @@ describe('Conversion', () => {
 			}
 		};
 
-		of(data)
-			.pipe(EntityConverter.object(Order))
-			.subscribe((order) => {
-				expect(order).toEqual(
-					expect.objectContaining({
-						address: {
-							country: null,
-							isPrimaryAddress: null,
-							lastModified: null,
-							street: 'Street 1',
-							streetNumber: 2
-						},
-						clientAddress: null,
-						projectAddress: {
-							country: null,
-							isPrimaryAddress: null,
-							lastModified: null,
-							street: 'Street 2',
-							streetNumber: null
-						}
-					})
-				);
-				done();
-			});
+		const dataParser = EntityConverter.object(Order);
+		const order = dataParser(data);
+		expect(order).toEqual(
+			expect.objectContaining({
+				address: {
+					country: null,
+					isPrimaryAddress: null,
+					lastModified: null,
+					street: 'Street 1',
+					streetNumber: 2
+				},
+				clientAddress: null,
+				projectAddress: {
+					country: null,
+					isPrimaryAddress: null,
+					lastModified: null,
+					street: 'Street 2',
+					streetNumber: null
+				}
+			})
+		);
 	});
 
-	it('Should return null if converted Entity is not valid', (done) => {
+	it('Should return null if converted Entity is not valid', () => {
 		const data: PlainData<Order> = {
 			address: {
 				street: null,
@@ -95,24 +91,18 @@ describe('Conversion', () => {
 			}
 		};
 
-		of(data)
-			.pipe(EntityConverter.object(Order))
-			.subscribe((order) => {
-				expect(order).toEqual(null);
-				done();
-			});
+		const dataParser = EntityConverter.object(Order);
+		const order = dataParser(data);
+		expect(order).toEqual(null);
 	});
 
-	it("Should return null if Entity doesn't match passed data", (done) => {
-		of(new Address())
-			.pipe(EntityConverter.object(Order))
-			.subscribe((order) => {
-				expect(order).toEqual(null);
-				done();
-			});
+	it("Should return null if Entity doesn't match passed data", () => {
+		const dataParser = EntityConverter.object(Address);
+		const address = dataParser(new Address());
+		expect(address).toEqual(null);
 	});
 
-	it('Should only return valid members from an array', (done) => {
+	it('Should only return valid members from an array', () => {
 		const data1: PlainData<Order> = {
 			address: {
 				street: 'Street 1',
@@ -139,49 +129,40 @@ describe('Conversion', () => {
 			}
 		};
 
-		of([data1, data2])
-			.pipe(EntityConverter.array(Order))
-			.subscribe((order) => {
-				expect(order).toEqual([
-					expect.objectContaining({
-						address: {
-							country: null,
-							isPrimaryAddress: null,
-							lastModified: null,
-							street: 'Street 1',
-							streetNumber: 2
-						},
-						clientAddress: null,
-						projectAddress: {
-							country: null,
-							isPrimaryAddress: null,
-							lastModified: null,
-							street: 'Street 2',
-							streetNumber: null
-						}
-					})
-				]);
-				done();
-			});
+		const dataParser = EntityConverter.array(Order);
+		const orders = dataParser([data1, data2]);
+		expect(orders).toEqual([
+			expect.objectContaining({
+				address: {
+					country: null,
+					isPrimaryAddress: null,
+					lastModified: null,
+					street: 'Street 1',
+					streetNumber: 2
+				},
+				clientAddress: null,
+				projectAddress: {
+					country: null,
+					isPrimaryAddress: null,
+					lastModified: null,
+					street: 'Street 2',
+					streetNumber: null
+				}
+			})
+		]);
 	});
 
-	it('Should return an empty array if the data is null', (done) => {
-		of(null)
-			// @ts-ignore
-			.pipe(EntityConverter.array(Order))
-			.subscribe((order) => {
-				expect(order).toEqual([]);
-				done();
-			});
+	it('Should return an empty array if the data is null', () => {
+		const dataParser = EntityConverter.array(Order);
+		// @ts-ignore
+		const order = dataParser(null);
+		expect(order).toEqual([]);
 	});
 
-	it('Should return an empty array if the data is invalid', (done) => {
-		of(new Order())
-			// @ts-ignore
-			.pipe(EntityConverter.array(Order))
-			.subscribe((order) => {
-				expect(order).toEqual([]);
-				done();
-			});
+	it('Should return an empty array if the data is invalid', () => {
+		const dataParser = EntityConverter.array(Order);
+		// @ts-ignore
+		const order = dataParser(new Order());
+		expect(order).toEqual([]);
 	});
 });
