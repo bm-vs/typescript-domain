@@ -1,9 +1,9 @@
 {
   "name": "typescript-domain",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Decorator-based transformation of JSON or plain Javascript objects to classes",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "lib/src/index.js",
+  "types": "lib/src/index.d.ts",
   "scripts": {
     "build": "tsc",
     "lint": "eslint src test",
@@ -31,7 +31,7 @@
   "author": "Bruno Santos",
   "license": "MIT",
   "files": [
-    "lib/**/*"
+    "lib/src/**/*"
   ],
   "devDependencies": {
     "@types/jest": "^29.0.1",
