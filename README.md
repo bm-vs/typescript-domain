@@ -36,7 +36,7 @@ Aims at creating consistency for types both at compile time and runtime.
 
 ## Installation
 
-This package doesn't dependent on anything else. Just do:
+This package doesn't depend on anything else. Just do:
 
 ```sh
 npm i typescript-domain
@@ -246,9 +246,15 @@ All that needs to be done is to:
 	`@AutoEnumArray` - requires options argument (the values the enum allows)
 
 
+These property decorators are typed:
+- you can't decorate a number field with @AutoString. This would result in a TS error:
+`@AutoString() streetNumber: number | null = null;`
+- you can't decorate objects with unrelated object types. This is also a TS error:
+`@AutoObject(Address) address: Customer | null = null;`
+- you can't decorate arrays with single variable decorators, and vice-versa. Also an error:
+`@AutoString() values: string[] = [];`
 
-
-**All decorators allow for an optional argument to be passed, an alias (check next section).**
+All property decorators allow for an optional argument to be passed, an alias (check next section).
 
 <br>
 <br>
