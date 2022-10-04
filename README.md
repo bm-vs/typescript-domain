@@ -4,8 +4,8 @@ Parsing and validation of JSON, or Javascript objects literals, into classes.
 
 Aims at creating consistency for types both at compile time and runtime.
 
-<br>
-<br>
+
+
 
 ## Contents
 * [Installation](#installation)
@@ -31,8 +31,8 @@ Aims at creating consistency for types both at compile time and runtime.
 * [Limitations](#limitations)
 
 
-<br>
-<br>
+
+
 
 ## Installation
 
@@ -44,8 +44,8 @@ npm i typescript-domain
 
 
 
-<br>
-<br>
+
+
 
 ## Objective
 
@@ -64,12 +64,12 @@ This poses two problems:
 2. How can you identify what these corner cases are? How can you address them if they only happen rarely or in a manner that is hard to reproduce?
 
 
-<br>
-<br>
+
+
 
 ## Motivation
 
-<br>
+
 
 ### API requests
 
@@ -120,7 +120,7 @@ fetch('user/1/addresses').then((addresses: Address[]) => {})
 
 **Addresses here are just whatever was returned. No type integrity is enforced, so these object literals can have other fields, missing fields, different types, you name it**.
 
-<br>
+
 
 ### Initializing class objects
 
@@ -192,8 +192,8 @@ Ok, I guess you can use [Partial](https://www.typescriptlang.org/docs/handbook/u
 
 Much work.
 
-<br>
-<br>
+
+
 
 ## Solution
 
@@ -256,12 +256,12 @@ These property decorators are typed:
 
 All property decorators allow for an optional argument to be passed, an alias (check next section).
 
-<br>
-<br>
+
+
 
 ## How it works
 
-<br>
+
 
 ### Flow
 
@@ -274,11 +274,11 @@ When an object is created: the `Entity` constructor runs, then the class constru
 
 By using the class decorator `@Model`, since it runs after the class constructor, all of the `Object.keys` are initialized. All of the keys of the object are then iterated over, checked against what's in the `MetadataStorage` and those fields are initialized from the object passed as an argument to the constructor.
 
-<br>
+
 
 ### Parsing and validation
 
-Every `Entity` receives one argument - the data that will initialize the object.
+Every `Entity` receives an argument `data`, containing the data that will initialize the object.
 
 This `data` has the same format as the class it initializes, except that all fields can also be `undefined` or `null`. For arrays, their members are also allowed to be `undefined` or `null`.
 
@@ -290,7 +290,16 @@ When a field of the data is being validated the following happens:
 - For `object` fields: nesting works recursively infinitely, as long as they're different types (check `Limitations`). By using the `isValid` method attached to the `Entity`, you can specify is a nested object should be thrown away if some of its fields aren't valid, thus making that field in the parent object `null`
 - For `array` fields: all members of the array are validated individually. If any end up not being valid (having a `null` value), they are removed from the final array.
 
-<br>
+
+### Updating values
+
+Every `Entity` has available an `update` function, which receives the same argument `data` as the constructor.
+
+This function, when called, behaves the same as the constructor:
+
+- For the fields decorated with `@Auto`: if the field exists in data, its value replaces the value in the object, otherwise the field is skipped
+- Fields not decorated are skipped
+
 
 ### Alias
 
@@ -300,7 +309,7 @@ This is useful when mapping JSON fields into the object. If the `alias` field is
 
 If both the `alias` and the `field name` exist in the passed `data`, the `alias` is always prioritized.
 
-<br>
+
 
 ### Debugging
 
@@ -313,12 +322,12 @@ If the `_debugSkipUndef` argument is true, errors regarding missing fields in th
 This feature can be useful to collect all of the mistypings that happen at runtime, and feed them to, for example, an API endpoint that stores all of these for later analysis.
 
 
-<br>
-<br>
+
+
 
 ## Use cases
 
-<br>
+
 
 ### Basic types
 
@@ -356,7 +365,7 @@ const addressBuilder = (data: any) => new Address(data)
 const address4 = addressBuilder({streetNumber: '42'})
 ```
 
-<br>
+
 
 ### Enums
 
@@ -377,7 +386,7 @@ const address1 = new Address({country: 'Norway'});
 const address2 = new Address({country: 'Denmark'});
 ```
 
-<br>
+
 
 ### Dates
 
@@ -397,7 +406,7 @@ const address3 = new Address({lastModified: '2022-09-27T20:14:25+00:00'});
 const address4 = new Address({lastModified: false});
 ```
 
-<br>
+
 
 ### Objects
 
@@ -445,7 +454,7 @@ const customer3 = new Customer({
 })
 ```
 
-<br>
+
 
 ### Arrays
 
@@ -490,7 +499,7 @@ const customer2 = new Customer({
 })
 ```
 
-<br>
+
 
 ### Debug info
 
@@ -516,7 +525,7 @@ new Address({street: 1}, (output) => {
 ```
 
 
-<br>
+
 
 ### Manually initialized fields
 
@@ -542,7 +551,7 @@ class Address extends Entity<Address> {
 ```
 
 
-<br>
+
 
 ### Default values
 
@@ -563,8 +572,8 @@ const address3 = new Address({street: 1});
 ```
 
 
-<br>
-<br>
+
+
 
 ## Limitations
 

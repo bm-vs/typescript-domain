@@ -58,21 +58,21 @@ describe('Conversion', () => {
 		const order = dataParser(data);
 		expect(order).toEqual(
 			expect.objectContaining({
-				address: {
+				address: expect.objectContaining({
 					country: null,
 					isPrimaryAddress: null,
 					lastModified: null,
 					street: 'Street 1',
 					streetNumber: 2
-				},
+				}),
 				clientAddress: null,
-				projectAddress: {
+				projectAddress: expect.objectContaining({
 					country: null,
 					isPrimaryAddress: null,
 					lastModified: null,
 					street: 'Street 2',
 					streetNumber: null
-				}
+				})
 			})
 		);
 	});
@@ -133,21 +133,21 @@ describe('Conversion', () => {
 		const orders = dataParser([data1, data2]);
 		expect(orders).toEqual([
 			expect.objectContaining({
-				address: {
+				address: expect.objectContaining({
 					country: null,
 					isPrimaryAddress: null,
 					lastModified: null,
 					street: 'Street 1',
 					streetNumber: 2
-				},
+				}),
 				clientAddress: null,
-				projectAddress: {
+				projectAddress: expect.objectContaining({
 					country: null,
 					isPrimaryAddress: null,
 					lastModified: null,
 					street: 'Street 2',
 					streetNumber: null
-				}
+				})
 			})
 		]);
 	});
