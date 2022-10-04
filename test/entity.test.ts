@@ -33,10 +33,12 @@ describe('Entity', () => {
 	});
 
 	it('Should not initialize any fields if none are annotated with @Auto', () => {
-		expect(new Dimensions()).toEqual({
-			height: null,
-			length: null,
-			width: null
-		});
+		expect(new Dimensions()).toEqual(
+			expect.objectContaining({
+				height: null,
+				length: null,
+				width: null
+			})
+		);
 	});
 });

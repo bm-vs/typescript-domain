@@ -3,6 +3,8 @@ import {DEBUG_INFO, validateValue} from './validation';
 import type {Constructor, DebugFunction, Indexable, PlainData} from './types';
 
 export class Entity<T> {
+	private _c: Constructor<T> | null = null;
+
 	public constructor(
 		_data?: PlainData<T> | null,
 		private readonly _debugFunction?: DebugFunction,
@@ -13,7 +15,14 @@ export class Entity<T> {
 		return true;
 	}
 
+	public update(data?: PlainData<T>): void {
+		if (this._c) {
+			this._init(this._c, data);
+		}
+	}
+
 	private _init(constructor: Constructor<T>, data?: PlainData<T>): void {
+		this._c = constructor;
 		const entityMetadata = defaultMetadataStorage.getMetadata(constructor);
 		if (!entityMetadata) {
 			return;
