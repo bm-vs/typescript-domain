@@ -1,5 +1,7 @@
 # typescript-domain
 
+**This had a very specific use case in a project. Zod might be a better alternative for basically every other use case.**
+
 Parsing and validation of JSON, or Javascript objects literals, into classes.
 
 Aims at creating consistency for types both at compile time and runtime.
